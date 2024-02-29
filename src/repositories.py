@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 from datetime import datetime
 
+
 @dataclass
 class User:
     id: int
@@ -34,6 +35,7 @@ class User:
     def age(self):
         current_year = datetime.now().year
         return current_year - self.birth_year
+
 
 class UserRepository:
     def __init__(self):

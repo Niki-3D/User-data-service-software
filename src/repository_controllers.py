@@ -1,4 +1,4 @@
-from repositories import UserRepository
+from src.repositories import UserRepository
 from typing import Optional, List
 from dataclasses import asdict
 

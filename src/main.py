@@ -1,8 +1,8 @@
 from flask import Flask, Response, request
 import json
-from repositories import UserRepository
-from repository_controllers import UserController
-from status_codes import SUCCESS, BAD_REQUEST, CREATED, NOT_FOUND
+from src.repositories import UserRepository
+from src.repository_controllers import UserController
+from src.status_codes import SUCCESS, BAD_REQUEST, CREATED, NOT_FOUND
 
 app = Flask(__name__)
 
