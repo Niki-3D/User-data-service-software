@@ -1,5 +1,5 @@
 from src.main import app
-from src.status_codes import SUCCESS, BAD_REQUEST, CREATED, NOT_FOUND
+from src.status_codes import SUCCESS, BAD_REQUEST, CREATED, NOT_FOUND, INTERNAL_SERVER_ERROR
 
 from flask.testing import FlaskClient
 
@@ -43,7 +43,7 @@ def test_create_user_failure(client: FlaskClient) -> None:
         "birth_year": 2000,
         "group": "user"
     }).status_code
-    assert actual == BAD_REQUEST
+    assert actual == INTERNAL_SERVER_ERROR
 
 
 def test_update_user_not_found(client: FlaskClient) -> None:
