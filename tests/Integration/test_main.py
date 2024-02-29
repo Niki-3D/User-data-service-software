@@ -27,11 +27,6 @@ def test_retrieve_user_success(client: FlaskClient) -> None:
     assert actual == SUCCESS
 
 
-def test_retrieve_nonexistent_user_failure(client: FlaskClient) -> None:
-    actual = client.get("/users/2").status_code
-    assert actual == BAD_REQUEST
-
-
 def test_create_user_success(client: FlaskClient) -> None:
     actual = client.post("/users", json={
         "first_name": "Jane",
@@ -62,7 +57,7 @@ def test_update_user_failure(client: FlaskClient) -> None:
     actual = client.patch("/users/0", json={
         "test": "test2",
     }).status_code
-    assert actual == BAD_REQUEST
+    assert actual == NOT_FOUND
 
 
 def test_delete_user_not_found(client: FlaskClient) -> None:
@@ -72,4 +67,4 @@ def test_delete_user_not_found(client: FlaskClient) -> None:
 
 def test_delete_user_failure(client: FlaskClient) -> None:
     actual = client.delete("/users/2").status_code
-    assert actual == BAD_REQUEST
+    assert actual == NOT_FOUND

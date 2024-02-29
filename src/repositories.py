@@ -13,7 +13,7 @@ class User:
 
     ALLOWED_GROUPS = {"user", "premium", "admin"}
 
-    def __init__(self, user_id: Optional[int], first_name: str, last_name: str, birth_year: int, group: str):
+    def __init__(self, user_id: int, first_name: str, last_name: str, birth_year: int, group: str):
         self.id = user_id
         self.first_name = first_name
         self.last_name = last_name
@@ -52,7 +52,6 @@ class UserRepository:
             user_data["group"]
         )
         self.users.append(user)
-        self.last_available_id += 1
         return user
 
     def get_all(self) -> List[User]:
