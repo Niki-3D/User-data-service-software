@@ -1,0 +1,80 @@
+from unittest.mock import patch, Mock
+
+import pytest
+
+from src.main import app
+from src.status_codes import SUCCESS, BAD_REQUEST, CREATED, NOT_FOUND
+
+@pytest.fixture()
+def user_data():
+    return {
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 30
+    }
+
+@pytest.fixture()
+def user():
+    return {
+        "id": 1,
+        "first_name": "John",
+        "last_name": "Doe",
+        "age": 30
+    }
+
+
+def test_get_users_returns_success():
+    with patch('src.app.user_controller.get_all', return_value=[]):
+        with app.test_client() as client:
+            response = client.get('/users')
+            assert response.status_code == SUCCESS
+
+def test_get_user_returns_success(user):
+    with patch('src.app.user_controller.get_by_id', return_value=user):
+        with app.test_client() as client:
+            response = client.get('/users/1')
+            assert response.status_code == SUCCESS
+
+def test_get_user_returns_bad_request():
+    with patch('src.app.user_controller.get_by_id', side_effect=ValueError("User not found")):
+        with app.test_client() as client:
+            response = client.get('/users/100')
+            assert response.status_code == BAD_REQUEST
+
+def test_post_user_returns_created(user_data):
+    with patch('src.app.request.get_json', return_value=user_data):
+        with patch('src.app.user_controller.create'):
+            with app.test_client() as client:
+                response = client.post('/users', json=user_data)
+                assert response.status_code == CREATED
+
+def test_post_user_returns_bad_request():
+    with patch('src.app.request.get_json', return_value={}):
+        with app.test_client() as client:
+            response = client.post('/users', json={})
+            assert response.status_code == BAD_REQUEST
+
+def test_patch_user_returns_not_found(user_data):
+    with patch('src.app.request.get_json', return_value=user_data):
+        with patch('src.app.user_controller.update'):
+            with app.test_client() as client:
+                response = client.patch('/users/1', json=user_data)
+                assert response.status_code == NOT_FOUND
+
+def test_patch_user_returns_bad_request():
+    with patch('src.app.request.get_json', return_value={}):
+        with app.test_client() as client:
+            response = client.patch('/users/1', json={})
+            assert response.status_code == BAD_REQUEST
+
+def test_delete_user_returns_not_found():
+    with patch('src.app.user_controller.delete'):
+        with app.test_client() as client:
+            response = client.delete('/users/1')
+            assert response.status_code == NOT_FOUND
+
+def test_delete_user_returns_bad_request():
+    with patch('src.app.user_controller.delete', side_effect=ValueError("User not found")):
+        with app.test_client() as client:
+            response = client.delete('/users/100')
+            assert response.status_code == BAD_REQUEST
