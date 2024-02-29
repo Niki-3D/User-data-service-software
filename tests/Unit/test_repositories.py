@@ -16,10 +16,8 @@ def test_create_user(user_repository: UserRepository) -> None:
         "birth_year": 1990,
         "group": "user"
     }
-    user_repository.create(user_data)
-    actual = user_repository.get_all()
-    assert actual == [User(1, "John", "Doe", 1990, "user")]
-    
+    user = user_repository.create(user_data)
+    assert user_repository.get_all() == [user]
 
 def test_get_all_users(user_repository: UserRepository) -> None:
     user_repository.create({

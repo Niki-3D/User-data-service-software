@@ -17,11 +17,11 @@ class UserController:
 
     def get_by_id(self, user_id: int) -> Optional[dict]:
         user = self._repository.get_by_id(user_id)
-        return asdict(user) if user else None
+        return asdict(user) if user is not None else None
 
     def update(self, user_id: int, user_data: dict) -> Optional[dict]:
         user = self._repository.update(user_id, user_data)
-        return asdict(user) if user else None
+        return asdict(user) if user is not None else None
 
     def delete(self, user_id: int) -> bool:
         return self._repository.delete(user_id)
