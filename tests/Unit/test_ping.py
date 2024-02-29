@@ -5,6 +5,6 @@ from src.main import ping
 def test_ping_exists():
     assert ping
 
-def test_ping_returns_right_value():
+def test_ping_returns_correct_value():
     actual = ping()
     assert actual == "pong"
