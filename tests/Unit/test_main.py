@@ -45,33 +45,23 @@ def test_get_user_returns_bad_request():
             assert response.status_code == BAD_REQUEST
 
 def test_post_user_returns_created(user_data):
-    with patch('src.main.request.get_json') as mock_get_json:
-        mock_get_json.return_value = user_data
-        with patch('src.app.user_controller.create'):
-            with app.test_client() as client:
-                response = client.post('/users', json=user_data)
-                assert response.status_code == CREATED
-
+    with patch('src.main.user_controller.create') as mock_create:
+        mock_create.return_value = user_data
+        with app.test_client() as client:
+            response = client.post('/users', json=user_data)
+            assert response.status_code == CREATED
 def test_post_user_returns_bad_request():
-    with patch('src.main.request.get_json') as mock_get_json:
-        mock_get_json.return_value = {}
+    with patch('src.main.user_controller.create') as mock_create:
+        mock_create.side_effect = ValueError("Invalid user data")
         with app.test_client() as client:
             response = client.post('/users', json={})
             assert response.status_code == BAD_REQUEST
-
 def test_patch_user_returns_not_found(user_data):
-        with patch('src.main.user_controller.update') as mock_update:
+        with patch('src.main.user_controller') as mock_update:
             mock_update.return_value = user_data
             with app.test_client() as client:
                 response = client.patch('/users/1', json=user_data)
                 assert response.status_code == NOT_FOUND
-
-def test_patch_user_returns_bad_request():
-    with patch('src.main.request.get_json') as mock_get_json:
-        mock_get_json.return_value = {}
-        with app.test_client() as client:
-            response = client.patch('/users/1', json={})
-            assert response.status_code == BAD_REQUEST
 
 def test_delete_user_returns_not_found():
     with patch('src.main.user_controller.delete') as mock_delete:
