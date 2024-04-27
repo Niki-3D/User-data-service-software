@@ -74,7 +74,7 @@ The application includes both unit and integration tests to ensure its functiona
 
 ### Contributors
 
-- Your Name <nbrozyniak@gmail.com>
+<nbrozyniak@gmail.com>
 
 ### License
 
