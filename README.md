@@ -37,7 +37,7 @@ This Flask application serves as a simple user management system, allowing CRUD 
 
 ### Running the Application
 
-1. Clone the repository: `git clone https://github.com/your_username/flask-user-management.git`
+1. Clone the repository: `git clone https://github.com/Niki-3D/flask-user-management.git`
 2. Navigate to the project directory: `cd flask-user-management`
 3. Install dependencies: `pip install -r requirements.txt`
 4. Run the Flask app: `python app.py`
